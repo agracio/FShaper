@@ -3,14 +3,12 @@ open FSharp.Compiler.SyntaxTree
 open FSharp.Compiler.Range
 open FSharp.Compiler.XmlDoc
 open FShaper.Core
-open Fantomas.TriviaTypes
 open Microsoft.CodeAnalysis.CSharp
 open Fantomas.FormatConfig
 open Fantomas
 open FShaper.Core.TreeOps
 open System.Text
 open Microsoft.CodeAnalysis.CSharp.Syntax
-open Fantomas.SourceOrigin
 open FSharp.Compiler.SourceCodeServices
 
 module FormatOutput = 

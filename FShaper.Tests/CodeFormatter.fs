@@ -2,7 +2,6 @@ module Tests.CodeFormatter
 
 open FShaper.Core
 open Fantomas
-open System
 
 let rec reduceIndent (x:string) =
     if x.Replace("\n", "").StartsWith "    " |> not then x.Trim() 
@@ -48,8 +47,8 @@ let rec formatFsharpWithReplacement prefix (s:string) source: string =
                 |> reduceIndent
                 |> fun x -> x.Trim()
         
-    printfn "\n-------------------------------Expecting [RAW]---------------------------------\n%s" s
-    printfn "\n------------------------Expecting [Compiler formatted] ------------------------\n%s" tree
+    printfn $"\n-------------------------------Expecting [RAW]---------------------------------\n%s{s}"
+    printfn $"\n------------------------Expecting [Compiler formatted] ------------------------\n%s{tree}"
     
     tree
     
@@ -70,7 +69,7 @@ let formatFsharpWithClassWithPrefix input source =
         sprintf "%s%s%s" prefix sep input 
 
     let prefix = inputWithClass.Replace(input, "")
-    printfn "Prefix:\n%A" prefix
+    printfn $"Prefix:\n%A{prefix}"
     formatFsharpWithReplacement prefix inputWithClass source
     
 let formatFsharpWithClass s = formatFsharpWithClassWithPrefix s false
@@ -82,10 +81,11 @@ let formatFsharpWithSource (s:string) = formatFsharpWithReplacement "" s true
 let simpleFormat (s:string) =
     let s' =  reduceIndent s
     let s' = s'.Replace("\r\n","\n")
-    printfn "\n-------------------------------Expecting [RAW]---------------------------------\n%s" s
-    printfn "\n------------------------Expecting [Simple formatted] ------------------------\n%s" s'
+    printfn $"\n-------------------------------Expecting [RAW]---------------------------------\n%s{s}"
+    printfn $"\n------------------------Expecting [Simple formatted] ------------------------\n%s{s'}"
     s'
     
 let logConverted s = 
-    s |> (fun x -> printfn "\n------------------------CONVERTED------------------------\n%s\n" x; x)
+    s |> (fun x -> printfn $"\n!!!---------------------CONVERTED------------------------\n%s{x}
+          \n------------------------CONVERTED---------------------!!!\n"; x)
     

@@ -4,7 +4,6 @@ open FSharp.Compiler.SyntaxTree
 open FSharp.Compiler.Range
 open FSharp.Compiler.SourceCodeServices 
 open FSharp.Compiler.XmlDoc
-open Fantomas
 
 module List = 
 

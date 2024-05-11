@@ -33,9 +33,8 @@ type StatementTests () =
                 long[] c = new long[100];"""
 
         let fsharp = 
-            """
-                let mutable c = Array.zeroCreate<int64>(100)
-                ()"""
+            $"
+                let mutable c = Array.zeroCreate<int64>(100)\n()"
                    
         csharp
         |> reduceIndent
@@ -51,20 +50,14 @@ type StatementTests () =
 
         let fsharp = 
              """
-                let mutable values =
-                    [| "12"
-                       "31."
-                       "5.8:32:16"
-                       "12:12:15.95"
-                       ".12" |]
-
+                let mutable values = [| "12"; "31."; "5.8:32:16"; "12:12:15.95"; ".12" |]
                 ()"""
                    
         csharp
         |> reduceIndent
         |> Converter.run 
         |> logConverted
-        |> should equal (formatFsharp fsharp)        
+        |> should equal (simpleFormat fsharp)        
 
 
     [<Test>]
@@ -74,9 +67,8 @@ type StatementTests () =
                 c[i = n] -= 1;"""
 
         let fsharp = 
-             """
-                i <- n
-                c.[i] <- c.[i] - 1"""
+             $"
+                i <- n\nc.[i] <- c.[i] - 1"
                    
         csharp
         |> reduceIndent
@@ -91,21 +83,13 @@ type StatementTests () =
                 List<int> ListGeneric = new List<int> { 5, 9, 1, 4 };"""
     
         let fsharp = 
-             """
-                let mutable ListGeneric =
-                    new List<int>(
-                        [| 5
-                           9
-                           1
-                           4 |]
-                    )
-
-                ()"""
+             $"
+                let mutable ListGeneric = new List<int>([| 5; 9; 1; 4 |])\n()"
         csharp
         |> reduceIndent
         |> Converter.runWithConfig false
         |> logConverted
-        |> should equal (formatFsharp fsharp)   
+        |> should equal (simpleFormat fsharp)
         
     [<Test>]
     member this.``match is converts to pattern match`` () = 
@@ -150,16 +134,14 @@ type StatementTests () =
                 var s3Client = new AmazonS3Client(credentials, RegionEndpoint.USWest2);"""
     
         let fsharp = 
-             """
-                let mutable credentials = new StoredProfileAWSCredentials(profileName)
-                let mutable s3Client = new AmazonS3Client(credentials, RegionEndpoint.USWest2)
-                ()"""
+             $"
+                let mutable credentials = new StoredProfileAWSCredentials(profileName)\nlet mutable s3Client = new AmazonS3Client(credentials, RegionEndpoint.USWest2)\n()"
 
         csharp
         |> reduceIndent
         |> Converter.runWithConfig false
         |> logConverted
-        |> should equal (formatFsharp fsharp)
+        |> should equal (simpleFormat fsharp)
         
 
     [<Test>]
@@ -187,13 +169,12 @@ type StatementTests () =
                 transformedData.Schema[columnName]);"""
     
         let fsharp = 
-             """
-                let mutable countSelectColumn = transformedData.GetColumn<float32 []>(transformedData.Schema.[columnName])
-                ()"""
+             $"
+                let mutable countSelectColumn = transformedData.GetColumn<float32 []>(transformedData.Schema.[columnName])\n()"
 
         csharp
         |> reduceIndent
         |> Converter.runWithConfig false
         |> logConverted
-        |> should equal (formatFsharp fsharp)
+        |> should equal (simpleFormat fsharp)
         

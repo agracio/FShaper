@@ -79,15 +79,19 @@ type AsyncAwaitTests () =
     
         let fsharp = 
              """
-                member this.Foo() = async { let! x = Bar.GetX() |> Async.AwaitTask
-                                            let! y = Baz.GetY() |> Async.AwaitTask
-                                            return x + y } |> Async.StartAsTask"""
+                member this.Foo() =
+                    async {
+                        let! x = Bar.GetX() |> Async.AwaitTask
+                        let! y = Baz.GetY() |> Async.AwaitTask
+                        return x + y
+                    }
+                    |> Async.StartAsTask"""
                    
         csharp
         |> reduceIndent
         |> Converter.run 
         |> logConverted
-        |> should equal (formatFsharpWithClass fsharp)
+        |> should equal (simpleFormat fsharp)
 
     [<Test>]
     member this.``return keyword is added with complex final statement`` () = 

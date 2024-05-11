@@ -69,7 +69,8 @@ type MethodTests () =
         let fsharp = 
              """
                 global.Xamarin.Forms.Forms.Init(this, bundle)"""
-        csharp |> Converter.runWithConfig false 
+        csharp
+        |> Converter.runWithConfig false 
         |> logConverted
         |> should equal (formatFsharp fsharp)    
 
@@ -83,12 +84,12 @@ type MethodTests () =
                 }"""
     
         let fsharp = 
-             """
+             $"
                 [<Activity(ConfigurationChanges = (ConfigChanges.ScreenSize
-                                                   ||| ConfigChanges.Orientation))>]
-                type MainActivity() ="""
+                                   ||| ConfigChanges.Orientation))>]\ntype MainActivity() ="
 
-        csharp |> Converter.runWithConfig false 
+        csharp
+        |> Converter.run  
         |> logConverted
         |> should equal (simpleFormat fsharp) // This code cannot be formatted by the compiler. It's not legal F#        
 

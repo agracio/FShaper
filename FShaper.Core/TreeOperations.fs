@@ -3,12 +3,8 @@ open Microsoft.CodeAnalysis.CSharp
 open Microsoft.CodeAnalysis
 open System.Threading
 open Microsoft.CodeAnalysis.CSharp.Syntax
-open FSharp.Compiler.Text
 open FSharp.Compiler.SyntaxTree
-open FSharp.Compiler.SyntaxTreeOps
 open FSharp.Compiler.Range
-open FSharp.Compiler.Text.SourceText
-open FSharp.Compiler.Interactive
 
 [<AutoOpen>]
 module ExprIdentUtils = 
@@ -93,7 +89,7 @@ module SynPat =
             | SynPat.Paren (a, _) -> loop a
             | SynPat.Named (a,b,c,d,e)  when getLeft ->  returnType <| LongIdentWithDots ([b], []) // this is for parameters (foo = foobar), ignore foobar
             | SynPat.Named (a,_,_,_,_) -> loop a // this is for parameters (foo = foobar), ignore foo
-            | x -> printfn "%A" x; sprintf "Wrong type: %A" x |> failwith
+            | x -> printfn $"%A{x}"; $"Wrong type: %A{x}" |> failwith
         loop synPat  
 
     let getIdent = getIdentAsReturn false (fun a -> Expr.LongIdent (false, a))      
@@ -109,7 +105,7 @@ module SynPat =
             | SynPat.LongIdent (a,_,_,_,_,_) -> None
             | SynPat.Paren (a, _) -> loop a
             | SynPat.Named (a,_,_,_,_) -> loop a // this is for parameters (foo = foobar), ignore foo
-            | x -> printfn "%A" x; sprintf "Wrong type: %A" x |> failwith
+            | x -> printfn $"%A{x}"; $"Wrong type: %A{x}" |> failwith
         loop synPat  
 
     let renameIdent func p = 
