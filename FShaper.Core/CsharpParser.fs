@@ -414,11 +414,14 @@ type CSharpStatementWalker() =
         | SyntaxKind.PlusPlusToken -> "++" |> toLongIdent
         | SyntaxKind.MinusMinusToken -> "--" |> toLongIdent
         | SyntaxKind.StringLiteralToken ->
-            let ParseStringLiteral(literal: string, range)=
+            
+            let parseStringLiteral(literal: string, range)=
                 let n = Regex.Replace(literal, "(?<!\\))(?:((\\n)*)\\n)(?![\\n/{])", @"\\n")
                 let r = Regex.Replace(n, "(?<!\\))(?:((\\r)*)\\r)(?![\\r/{])", @"\\r")
                 SynConst.String(r, range)
-            (node.ValueText, range0) |> ParseStringLiteral |> Expr.Const 
+                
+            (node.ValueText, range0) |> parseStringLiteral |> Expr.Const
+            
         | SyntaxKind.CharacterLiteralToken -> (node.Value :?> Char) |> SynConst.Char |> Expr.Const 
         | _ -> 
             let ident = createErrorCode "ParseToken" node.Parent
