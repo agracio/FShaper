@@ -2,7 +2,6 @@
 open NUnit.Framework
 open FShaper.Core
 open FsUnit
-open System
 open CodeFormatter
 
 [<TestFixture>]
@@ -91,7 +90,7 @@ type AsyncAwaitTests () =
         |> reduceIndent
         |> Converter.run 
         |> logConverted
-        |> should equal (simpleFormat fsharp)
+        |> should equal (formatFsharp fsharp)
 
     [<Test>]
     member this.``return keyword is added with complex final statement`` () = 
@@ -197,7 +196,7 @@ type AsyncAwaitTests () =
         |> logConverted
         |> should equal (formatFsharpWithClass fsharp)
 
-    // At first this test seemed like a good idea. It turns out that is would be nothing more than `find and replace` since 
+    // At first this test seemed like a good idea. It turns out that it would be nothing more than `find and replace` since 
     // there isn't a way to know the foo() returns a task. For this reason the test is left commented out. 
     // The resulting code should still compile under F# (and possible deadlock because it's bad in C# and F#). 
     // [<Test>]

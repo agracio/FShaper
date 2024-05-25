@@ -18,7 +18,7 @@ let rec reduceIndent (x:string) =
         
 
 let formatCode s source =
-    let filename = "Test.fsx"
+    let filename = "/home/user/Test.fsx"
     let ast =
         CodeFormatter.ParseAsync(
             filename,
@@ -61,12 +61,12 @@ let formatFsharpWithClassWithPrefix input source =
         |> Array.map (fun x -> "    " + x)
         |> String.concat "\n"
         
-    let prefix = sprintf "type Klass() ="
+    let prefix = "type Klass() ="
     
     let inputWithClass  =
         let sep = if input.Replace(" ", "").StartsWith "\n" then "" else "\n"
         printfn "Starting:\n%A" <| input.Substring(0, 5)
-        sprintf "%s%s%s" prefix sep input 
+        $"%s{prefix}%s{sep}%s{input}" 
 
     let prefix = inputWithClass.Replace(input, "")
     printfn $"Prefix:\n%A{prefix}"
@@ -86,6 +86,6 @@ let simpleFormat (s:string) =
     s'
     
 let logConverted s = 
-    s |> (fun x -> printfn $"\n!!!---------------------CONVERTED------------------------\n%s{x}
-          \n------------------------CONVERTED---------------------!!!\n"; x)
-    
+    s |> (fun x -> printfn $"\n------------------------CONVERTED------------------------\n%s{x}\n"; x)
+
+        

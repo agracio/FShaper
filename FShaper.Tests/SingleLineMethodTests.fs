@@ -94,18 +94,17 @@ type SingleLineMethodsTests () =
     member this.``adding to string is escaped`` () = 
         let csharp = 
              """
-                void Foo() { Console.Write("First line.\nSecond Line"); }"""
+                void Foo() { Console.Write("First line.\r\nSecond Line" + (n.ToString())); }"""
 
         let fsharp = 
              """
-                member this.Foo() = Console.Write("Hello, " + (n.ToString()))"""
+                member this.Foo() = Console.Write("First line.\r\nSecond Line" + n.ToString())"""
                    
         csharp
         |> reduceIndent
         |> Converter.run 
         |> logConverted
-        |> should equal (formatFsharpWithClass fsharp)
-
+        |> should equal (simpleFormat fsharp)
 
     [<Test>]
     member this.``global prefix in namespace converts to period for statement`` () = 

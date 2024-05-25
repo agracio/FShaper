@@ -833,7 +833,7 @@ type FullFileTests () =
         |> reduceIndent
         |> Converter.run 
         |> logConverted
-        |> should equal (simpleFormat fsharp)   
+        |> should equal (formatFsharp fsharp)   
 
     [<Test>]
     member this.``fixed two sets of related classes`` () = 
@@ -892,7 +892,7 @@ type FullFileTests () =
         |> reduceIndent
         |> Converter.run 
         |> logConverted
-        |> should equal (simpleFormat fsharp) 
+        |> should equal (formatFsharp fsharp) 
 
     [<Test>]
     member this.``reorder main method and classes`` () = 

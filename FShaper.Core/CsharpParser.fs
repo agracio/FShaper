@@ -4,7 +4,7 @@ namespace FShaper.Core
 open System
 open FSharp.Compiler.SyntaxTree
 open FShaper.Core
-open Fantomas.TriviaTypes
+open System.Text.RegularExpressions
 open Microsoft.CodeAnalysis
 open System.Linq
 open Microsoft.CodeAnalysis.CSharp
@@ -68,7 +68,6 @@ type CSharpStatementWalker() =
         | _ -> 
             let l = LongIdentWithDots (node.Left.WithoutTrivia().ToFullString() |> toIdent, [range0])
             Expr.LongIdentSet (l, right)
-    
 
     static member ParseAssignmentExpressionSyntax (node:AssignmentExpressionSyntax): Expr =
         match node.Kind() with
@@ -414,7 +413,12 @@ type CSharpStatementWalker() =
         | SyntaxKind.LoadKeyword -> "Load" |> toLongIdent
         | SyntaxKind.PlusPlusToken -> "++" |> toLongIdent
         | SyntaxKind.MinusMinusToken -> "--" |> toLongIdent
-        | SyntaxKind.StringLiteralToken -> (node.ValueText, range0) |> SynConst.String |> Expr.Const 
+        | SyntaxKind.StringLiteralToken ->
+            let ParseStringLiteral(literal: string, range)=
+                let n = Regex.Replace(literal, "(?<!\\))(?:((\\n)*)\\n)(?![\\n/{])", @"\\n")
+                let r = Regex.Replace(n, "(?<!\\))(?:((\\r)*)\\r)(?![\\r/{])", @"\\r")
+                SynConst.String(r, range)
+            (node.ValueText, range0) |> ParseStringLiteral |> Expr.Const 
         | SyntaxKind.CharacterLiteralToken -> (node.Value :?> Char) |> SynConst.Char |> Expr.Const 
         | _ -> 
             let ident = createErrorCode "ParseToken" node.Parent

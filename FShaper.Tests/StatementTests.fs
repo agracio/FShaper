@@ -49,9 +49,8 @@ type StatementTests () =
                 string[] values = { "12", "31.", "5.8:32:16", "12:12:15.95", ".12"};"""
 
         let fsharp = 
-             """
-                let mutable values = [| "12"; "31."; "5.8:32:16"; "12:12:15.95"; ".12" |]
-                ()"""
+             $"
+                let mutable values = [| \"12\"; \"31.\"; \"5.8:32:16\"; \"12:12:15.95\"; \".12\" |]\n()"
                    
         csharp
         |> reduceIndent
