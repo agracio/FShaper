@@ -2,7 +2,6 @@ module FShaper.Core.XamarinConverter
 
 open System
 open System.IO 
-open System.Text.RegularExpressions
 
 module Android =
 

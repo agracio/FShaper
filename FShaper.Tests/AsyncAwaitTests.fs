@@ -77,7 +77,7 @@ type AsyncAwaitTests () =
                 }"""
     
         let fsharp = 
-             """
+                """
                 member this.Foo() =
                     async {
                         let! x = Bar.GetX() |> Async.AwaitTask
@@ -90,7 +90,7 @@ type AsyncAwaitTests () =
         |> reduceIndent
         |> Converter.run 
         |> logConverted
-        |> should equal (formatFsharp fsharp)
+        |> should equal (formatFsharpWithClass fsharp)
 
     [<Test>]
     member this.``return keyword is added with complex final statement`` () = 

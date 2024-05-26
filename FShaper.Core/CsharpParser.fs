@@ -11,7 +11,6 @@ open Microsoft.CodeAnalysis.CSharp
 open Microsoft.CodeAnalysis.CSharp.Syntax
 open FSharp.Compiler
 open FSharp.Compiler.Range
-open System.Threading
         
 [<AutoOpen>]
 module SimpleFormatter = 
